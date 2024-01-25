@@ -8,7 +8,7 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 import { DecorableVault } from "../DecorableVault.sol";
 
 contract SweepableVault is DecorableVault {
-    uint256 private _totalAssetsDeposited;
+    uint256 private _totalAssets;
 
     constructor(IERC20 asset, string memory name, string memory symbol) DecorableVault(asset, name, symbol) { }
 
@@ -18,10 +18,10 @@ contract SweepableVault is DecorableVault {
     }
 
     function setTotalAssetsDeposited(uint256 assets) public virtual onlyOwner {
-        _totalAssetsDeposited = assets;
+        _totalAssets = assets;
     }
 
     function totalAssets() public view virtual override(IERC4626, ERC4626) returns (uint256) {
-        return _totalAssetsDeposited;
+        return _totalAssets;
     }
 }
