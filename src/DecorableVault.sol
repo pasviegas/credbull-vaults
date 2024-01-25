@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { ERC4626 } from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
+import { IERC4626 } from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { EnumerableSet } from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
@@ -63,5 +64,13 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         SafeERC20.safeTransfer(IERC20(asset()), receiver, assets);
 
         emit Withdraw(receiver, receiver, owner, assets, shares);
+    }
+
+    function getBalance(IERC20 token) public view virtual returns (uint256) {
+        return token.balanceOf(address(this));
+    }
+
+    function getVault() external view returns (IERC4626) {
+        return this;
     }
 }

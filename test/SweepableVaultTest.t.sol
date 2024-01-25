@@ -6,7 +6,7 @@ import { MockToken } from "./mocks/MockToken.sol";
 import { SweepableVault } from "../src/sweep/SweepableVault.sol";
 import { ImmediateSweepVaultDecorator } from "../src/sweep/ImmediateSweepVaultDecorator.sol";
 
-contract AVaultDecoratorTest is Test {
+contract SweepableVaultTest is Test {
     MockToken public token;
     ImmediateSweepVaultDecorator public decorator;
     SweepableVault public vault;

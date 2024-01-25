@@ -6,8 +6,9 @@ import { ERC4626 } from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.
 import { IERC4626 } from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { DecorableVault } from "../DecorableVault.sol";
+import { ISweepableVault } from "./ISweepableVault.sol";
 
-contract SweepableVault is DecorableVault {
+contract SweepableVault is ISweepableVault, DecorableVault {
     uint256 private _totalAssets;
 
     constructor(IERC20 asset, string memory name, string memory symbol) DecorableVault(asset, name, symbol) { }

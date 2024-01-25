@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import { AVaultDecorator } from "../../src/AVaultDecorator.sol";
+import { AVaultDecorator } from "../AVaultDecorator.sol";
 import { IDecorableVault } from "../IDecorableVault.sol";
 import { AKYCProvider } from "./AKYCProvider.sol";
 

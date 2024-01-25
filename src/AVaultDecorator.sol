@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { IERC4626 } from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import { IDecorableVault } from "./IDecorableVault.sol";
 
 abstract contract AVaultDecorator is IDecorableVault {
@@ -116,5 +118,13 @@ abstract contract AVaultDecorator is IDecorableVault {
 
     function decimals() external view virtual returns (uint8) {
         return vault.decimals();
+    }
+
+    function getBalance(IERC20 token) public view virtual returns (uint256) {
+        return vault.getBalance(token);
+    }
+
+    function getVault() external view returns (IERC4626) {
+        return vault.getVault();
     }
 }
