@@ -3,12 +3,12 @@ pragma solidity ^0.8.13;
 
 import { Test, console2 } from "forge-std/Test.sol";
 import { MockToken } from "./mocks/MockToken.sol";
-import { ConcreteVault } from "./mocks/ConcreteVault.sol";
+import { MockVaultDecorator } from "./mocks/MockVaultDecorator.sol";
 import { DecorableVault } from "../src/DecorableVault.sol";
 
 contract AVaultDecoratorTest is Test {
     MockToken public token;
-    ConcreteVault public decorator;
+    MockVaultDecorator public decorator;
     DecorableVault public vault;
 
     Account public depositor;
@@ -18,7 +18,7 @@ contract AVaultDecoratorTest is Test {
 
         token = new MockToken(1000 ether);
         vault = new DecorableVault(token, "Vault Shares", "sVault");
-        decorator = new ConcreteVault(vault);
+        decorator = new MockVaultDecorator(vault);
     }
 
     function test_deposit_should_fail_if_decorator_is_disabled() public {
