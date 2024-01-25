@@ -30,4 +30,13 @@ contract WhitelistVaultDecorator is AVaultDecorator {
     {
         return vault.deposit(assets, receiver);
     }
+
+    function mint(uint256 shares, address receiver)
+        external
+        override
+        onlyWhitelistAddress(receiver)
+        returns (uint256 assets)
+    {
+        return vault.mint(shares, receiver);
+    }
 }

@@ -51,8 +51,7 @@ contract FixedYieldOnMaturityVaultDecorator is AVaultDecorator, Ownable, IDynami
     }
 
     function setTotalAssetsDeposited(uint256 assets) public virtual onlyOwner {
-        IDynamicAssetVault dvault = IDynamicAssetVault(address(vault));
-        dvault.setTotalAssetsDeposited(assets);
+        IDynamicAssetVault(address(vault)).setTotalAssetsDeposited(assets);
     }
 
     function mature() external onlyOwner {
