@@ -39,6 +39,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
 
     function _deposit(address caller, address receiver, uint256 assets, uint256 shares)
         internal
+        virtual
         override
         onlyDecorator(caller)
     {
@@ -50,6 +51,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
 
     function _withdraw(address caller, address receiver, address owner, uint256 assets, uint256 shares)
         internal
+        virtual
         override
         onlyDecorator(caller)
     {
