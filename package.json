@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "lint": "forge fmt && yarn solhint  './*(test|src)/**/*.sol'",
+    "test": "forge test"
+  },
+  "dependencies": {
+    "solhint": "^4.1.1"
+  }
+}
