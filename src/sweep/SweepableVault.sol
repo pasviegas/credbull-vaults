@@ -18,7 +18,7 @@ contract SweepableVault is ISweepableVault, DecorableVault {
         SafeERC20.safeTransferFrom(IERC20(asset()), address(this), receiver, assets);
     }
 
-    function setTotalAssetsDeposited(uint256 assets) public virtual onlyOwner {
+    function setTotalAssets(uint256 assets) public virtual onlyOwner {
         _totalAssets = assets;
     }
 

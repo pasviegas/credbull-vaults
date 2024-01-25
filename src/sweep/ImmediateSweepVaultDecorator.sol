@@ -18,7 +18,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
 
         uint256 shares = sVault.deposit(assets, receiver);
 
-        sVault.setTotalAssetsDeposited(sVault.totalAssets() + assets);
+        sVault.setTotalAssets(sVault.totalAssets() + assets);
         sVault.sweep(assets, _custodian);
 
         return shares;
@@ -29,7 +29,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
 
         uint256 assets = sVault.mint(shares, receiver);
 
-        sVault.setTotalAssetsDeposited(sVault.totalAssets() + assets);
+        sVault.setTotalAssets(sVault.totalAssets() + assets);
         sVault.sweep(assets, _custodian);
 
         return assets;
@@ -43,7 +43,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
         ISweepableVault sVault = ISweepableVault(address(vault));
 
         uint256 shares = sVault.withdraw(assets, receiver, owner);
-        sVault.setTotalAssetsDeposited(sVault.totalAssets() - assets);
+        sVault.setTotalAssets(sVault.totalAssets() - assets);
 
         return shares;
     }
@@ -56,7 +56,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
         ISweepableVault sVault = ISweepableVault(address(vault));
 
         uint256 assets = sVault.redeem(shares, receiver, owner);
-        sVault.setTotalAssetsDeposited(sVault.totalAssets() - assets);
+        sVault.setTotalAssets(sVault.totalAssets() - assets);
 
         return assets;
     }
@@ -66,8 +66,8 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
         sVault.sweep(assets, receiver);
     }
 
-    function setTotalAssetsDeposited(uint256 assets) public override onlyOwner {
+    function setTotalAssets(uint256 assets) public override onlyOwner {
         ISweepableVault sVault = ISweepableVault(address(vault));
-        sVault.setTotalAssetsDeposited(assets);
+        sVault.setTotalAssets(assets);
     }
 }

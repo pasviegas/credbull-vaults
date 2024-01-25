@@ -50,8 +50,8 @@ contract FixedYieldOnMaturityVaultDecorator is AVaultDecorator, Ownable, IDynami
         return vault.totalAssets().mulDiv(100 + _fixedYield, 100);
     }
 
-    function setTotalAssetsDeposited(uint256 assets) public virtual onlyOwner {
-        IDynamicAssetVault(address(vault)).setTotalAssetsDeposited(assets);
+    function setTotalAssets(uint256 assets) public virtual onlyOwner {
+        IDynamicAssetVault(address(vault)).setTotalAssets(assets);
     }
 
     function mature() external onlyOwner {
@@ -61,7 +61,7 @@ contract FixedYieldOnMaturityVaultDecorator is AVaultDecorator, Ownable, IDynami
             revert NotEnoughBalanceToMature();
         }
 
-        setTotalAssetsDeposited(currentBalance);
+        setTotalAssets(currentBalance);
 
         isMatured = true;
     }
