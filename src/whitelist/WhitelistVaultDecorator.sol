@@ -14,7 +14,7 @@ contract WhitelistVaultDecorator is AVaultDecorator {
         provider = _provider;
     }
 
-    modifier onlyWhitelistAddress(address receiver) {
+    modifier onlyWhitelistedAddress(address receiver) {
         if (!provider.status(receiver)) {
             revert AddressNotAWhitelisted();
         }
@@ -25,7 +25,7 @@ contract WhitelistVaultDecorator is AVaultDecorator {
     function deposit(uint256 assets, address receiver)
         external
         override
-        onlyWhitelistAddress(receiver)
+        onlyWhitelistedAddress(receiver)
         returns (uint256 shares)
     {
         return vault.deposit(assets, receiver);
@@ -34,7 +34,7 @@ contract WhitelistVaultDecorator is AVaultDecorator {
     function mint(uint256 shares, address receiver)
         external
         override
-        onlyWhitelistAddress(receiver)
+        onlyWhitelistedAddress(receiver)
         returns (uint256 assets)
     {
         return vault.mint(shares, receiver);
