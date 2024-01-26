@@ -18,14 +18,14 @@ contract FixedYieldOnMaturityVaultDecorator is AVaultDecorator, Ownable, IDynami
 
     uint256 private _fixedYield;
 
+    constructor(IDynamicAssetVault _vault, uint256 fixedYield) AVaultDecorator(_vault) Ownable(msg.sender) {
+        _fixedYield = fixedYield;
+    }
+
     modifier onlyIfMatured() {
         if (!isMatured) revert VaultNotMatured();
 
         _;
-    }
-
-    constructor(IDynamicAssetVault _vault, uint256 fixedYield) AVaultDecorator(_vault) Ownable(msg.sender) {
-        _fixedYield = fixedYield;
     }
 
     function withdraw(uint256 assets, address receiver, address owner)
