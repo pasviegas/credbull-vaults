@@ -6,11 +6,13 @@ import { MockToken } from "./mocks/MockToken.sol";
 import { SweepableVault } from "../src/sweep/SweepableVault.sol";
 import { ImmediateSweepVaultDecorator } from "../src/sweep/ImmediateSweepVaultDecorator.sol";
 import { FixedYieldOnMaturityVaultDecorator } from "../src/yield/FixedYieldOnMaturityVaultDecorator.sol";
+import { FixedYieldOnMaturityVaultStrategy } from "../src/yield/FixedYieldOnMaturityVaultStrategy.sol";
 
 contract FixedYieldVaultDecoratorTest is Test {
     MockToken public token;
     ImmediateSweepVaultDecorator public immediateSweepDecorator;
     FixedYieldOnMaturityVaultDecorator public decorator;
+    FixedYieldOnMaturityVaultStrategy public strategy;
     SweepableVault public vault;
 
     Account public custodian;
@@ -25,11 +27,12 @@ contract FixedYieldVaultDecoratorTest is Test {
 
         immediateSweepDecorator = new ImmediateSweepVaultDecorator(vault, custodian.addr);
         vault.enableDecorator(address(immediateSweepDecorator));
-        vault.transferOwnership(address(immediateSweepDecorator));
 
         decorator = new FixedYieldOnMaturityVaultDecorator(immediateSweepDecorator, 10);
         immediateSweepDecorator.enableDecorator(address(decorator));
-        immediateSweepDecorator.transferOwnership(address(decorator));
+
+        strategy = new FixedYieldOnMaturityVaultStrategy(decorator);
+        decorator.enableDecorator(address(strategy));
     }
 
     function test_redeem_succeeds_and_the_depositor_receives_their_yield() public {
@@ -39,7 +42,7 @@ contract FixedYieldVaultDecoratorTest is Test {
 
         vm.startPrank(depositor.addr);
         token.approve(address(vault), amount);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.stopPrank();
 
         token.mint(custodian.addr, 10 ether + 1);
@@ -49,10 +52,10 @@ contract FixedYieldVaultDecoratorTest is Test {
         token.transferFrom(custodian.addr, address(vault), 110 ether + 1);
         vm.stopPrank();
 
-        decorator.mature();
+        strategy.mature();
 
         vm.prank(depositor.addr);
-        decorator.redeem(decorator.balanceOf(depositor.addr), depositor.addr, depositor.addr);
+        strategy.redeem(strategy.balanceOf(depositor.addr), depositor.addr, depositor.addr);
 
         assertEq(token.balanceOf(depositor.addr), 110 ether);
         assertEq(token.balanceOf(address(vault)), 1);
@@ -66,11 +69,11 @@ contract FixedYieldVaultDecoratorTest is Test {
 
         vm.startPrank(depositor.addr);
         token.approve(address(vault), amount);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.stopPrank();
 
         vm.expectRevert(FixedYieldOnMaturityVaultDecorator.NotEnoughBalanceToMature.selector);
-        decorator.mature();
+        strategy.mature();
     }
 
     function test_redeem_fails_before_maturity() public {
@@ -80,9 +83,9 @@ contract FixedYieldVaultDecoratorTest is Test {
 
         vm.startPrank(depositor.addr);
         token.approve(address(vault), amount);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.expectRevert(FixedYieldOnMaturityVaultDecorator.VaultNotMatured.selector);
-        decorator.redeem(100 ether, depositor.addr, depositor.addr);
+        strategy.redeem(100 ether, depositor.addr, depositor.addr);
         vm.stopPrank();
     }
 }

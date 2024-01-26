@@ -6,11 +6,13 @@ import { MockToken } from "./mocks/MockToken.sol";
 import { DecorableVault } from "../src/DecorableVault.sol";
 import { WhitelistVaultDecorator } from "../src/whitelist/WhitelistVaultDecorator.sol";
 import { MockKYCProvider } from "./mocks/MockKYCProvider.sol";
+import { MockVaultStrategy } from "./mocks/MockVaultStrategy.sol";
 
 contract WhitelistVaultDecoratorTest is Test {
     MockToken public token;
     MockKYCProvider public provider;
     WhitelistVaultDecorator public decorator;
+    MockVaultStrategy public strategy;
     DecorableVault public vault;
 
     Account public depositor;
@@ -24,6 +26,9 @@ contract WhitelistVaultDecoratorTest is Test {
         provider = new MockKYCProvider();
         decorator = new WhitelistVaultDecorator(vault, provider);
         vault.enableDecorator(address(decorator));
+
+        strategy = new MockVaultStrategy(decorator);
+        decorator.enableDecorator(address(strategy));
     }
 
     function test_deposit_should_fail_if_address_not_whitelisted() public {
@@ -35,7 +40,7 @@ contract WhitelistVaultDecoratorTest is Test {
         token.approve(address(vault), amount);
 
         vm.expectRevert(WhitelistVaultDecorator.AddressNotAWhitelisted.selector);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.stopPrank();
     }
 
@@ -52,10 +57,10 @@ contract WhitelistVaultDecoratorTest is Test {
 
         vm.startPrank(depositor.addr);
         token.approve(address(vault), amount);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.stopPrank();
 
         assertEq(token.balanceOf(depositor.addr), 0 ether);
-        assertEq(vault.balanceOf(depositor.addr), amount);
+        assertEq(strategy.balanceOf(depositor.addr), amount);
     }
 }

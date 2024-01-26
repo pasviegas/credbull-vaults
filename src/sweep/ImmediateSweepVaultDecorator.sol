@@ -2,18 +2,22 @@
 pragma solidity ^0.8.0;
 
 import { IERC4626 } from "@openzeppelin/contracts/interfaces/IERC4626.sol";
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { AVaultDecorator } from "../AVaultDecorator.sol";
 import { ISweepableVault } from "./ISweepableVault.sol";
 
-contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownable {
+contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault {
     address public _custodian;
 
-    constructor(ISweepableVault _vault, address custodian) AVaultDecorator(_vault) Ownable(msg.sender) {
+    constructor(ISweepableVault _vault, address custodian) AVaultDecorator(_vault) {
         _custodian = custodian;
     }
 
-    function deposit(uint256 assets, address receiver) external override(AVaultDecorator, IERC4626) returns (uint256) {
+    function deposit(uint256 assets, address receiver)
+        external
+        override(AVaultDecorator, IERC4626)
+        onlyDecorator(msg.sender)
+        returns (uint256)
+    {
         ISweepableVault sVault = ISweepableVault(address(vault));
 
         uint256 shares = sVault.deposit(assets, receiver);
@@ -24,7 +28,12 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
         return shares;
     }
 
-    function mint(uint256 shares, address receiver) external override(AVaultDecorator, IERC4626) returns (uint256) {
+    function mint(uint256 shares, address receiver)
+        external
+        override(AVaultDecorator, IERC4626)
+        onlyDecorator(msg.sender)
+        returns (uint256)
+    {
         ISweepableVault sVault = ISweepableVault(address(vault));
 
         uint256 assets = sVault.mint(shares, receiver);
@@ -38,6 +47,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
     function withdraw(uint256 assets, address receiver, address owner)
         external
         override(AVaultDecorator, IERC4626)
+        onlyDecorator(msg.sender)
         returns (uint256)
     {
         ISweepableVault sVault = ISweepableVault(address(vault));
@@ -51,6 +61,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
     function redeem(uint256 shares, address receiver, address owner)
         external
         override(AVaultDecorator, IERC4626)
+        onlyDecorator(msg.sender)
         returns (uint256)
     {
         ISweepableVault sVault = ISweepableVault(address(vault));
@@ -61,12 +72,12 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault, Ownab
         return assets;
     }
 
-    function sweep(uint256 assets, address receiver) public override onlyOwner {
+    function sweep(uint256 assets, address receiver) public override onlyDecorator(msg.sender) {
         ISweepableVault sVault = ISweepableVault(address(vault));
         sVault.sweep(assets, receiver);
     }
 
-    function setTotalAssets(uint256 assets) public override onlyOwner {
+    function setTotalAssets(uint256 assets) public override onlyDecorator(msg.sender) {
         ISweepableVault sVault = ISweepableVault(address(vault));
         sVault.setTotalAssets(assets);
     }

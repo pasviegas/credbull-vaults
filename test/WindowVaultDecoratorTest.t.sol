@@ -7,11 +7,13 @@ import { DecorableVault } from "../src/DecorableVault.sol";
 import { OperationWindowVaultDecorator } from "../src/window/OperationWindowVaultDecorator.sol";
 import { DepositWindowVaultDecorator } from "../src/window/DepositWindowVaultDecorator.sol";
 import { RedeemWindowVaultDecorator } from "../src/window/RedeemWindowVaultDecorator.sol";
+import { MockVaultStrategy } from "./mocks/MockVaultStrategy.sol";
 
 contract WindowVaultDecoratorTest is Test {
     MockToken public token;
     DepositWindowVaultDecorator public depositDecorator;
     RedeemWindowVaultDecorator public decorator;
+    MockVaultStrategy public strategy;
     DecorableVault public vault;
 
     Account public depositor;
@@ -37,6 +39,9 @@ contract WindowVaultDecoratorTest is Test {
         redeemClosesAt = block.timestamp + 210;
         decorator = new RedeemWindowVaultDecorator(depositDecorator, redeemOpensAt, redeemClosesAt);
         depositDecorator.enableDecorator(address(decorator));
+
+        strategy = new MockVaultStrategy(decorator);
+        decorator.enableDecorator(address(strategy));
     }
 
     function test_deposit_should_fail_if_before_deposit_window() public {
@@ -56,7 +61,7 @@ contract WindowVaultDecoratorTest is Test {
                 block.timestamp
             )
         );
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.stopPrank();
     }
 
@@ -79,7 +84,7 @@ contract WindowVaultDecoratorTest is Test {
                 block.timestamp
             )
         );
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.stopPrank();
     }
 
@@ -92,11 +97,11 @@ contract WindowVaultDecoratorTest is Test {
         token.approve(address(vault), amount);
 
         vm.warp(depositClosesAt - 1);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
         vm.stopPrank();
 
         assertEq(token.balanceOf(depositor.addr), 0 ether);
-        assertEq(vault.balanceOf(depositor.addr), amount);
+        assertEq(strategy.balanceOf(depositor.addr), amount);
     }
 
     function test_redeem_should_fail_if_before_redeem_window() public {
@@ -108,7 +113,7 @@ contract WindowVaultDecoratorTest is Test {
         token.approve(address(vault), amount);
 
         vm.warp(depositClosesAt - 1);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
 
         vm.warp(redeemOpensAt - 1);
 
@@ -121,7 +126,7 @@ contract WindowVaultDecoratorTest is Test {
                 block.timestamp
             )
         );
-        decorator.redeem(amount, depositor.addr, depositor.addr);
+        strategy.redeem(amount, depositor.addr, depositor.addr);
         vm.stopPrank();
     }
 
@@ -134,7 +139,7 @@ contract WindowVaultDecoratorTest is Test {
         token.approve(address(vault), amount);
 
         vm.warp(depositClosesAt - 1);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
 
         vm.warp(redeemClosesAt + 1);
 
@@ -147,7 +152,7 @@ contract WindowVaultDecoratorTest is Test {
                 block.timestamp
             )
         );
-        decorator.redeem(amount, depositor.addr, depositor.addr);
+        strategy.redeem(amount, depositor.addr, depositor.addr);
         vm.stopPrank();
     }
 
@@ -160,13 +165,13 @@ contract WindowVaultDecoratorTest is Test {
         token.approve(address(vault), amount);
 
         vm.warp(depositClosesAt - 1);
-        decorator.deposit(amount, depositor.addr);
+        strategy.deposit(amount, depositor.addr);
 
         vm.warp(redeemClosesAt - 1);
-        decorator.redeem(amount, depositor.addr, depositor.addr);
+        strategy.redeem(amount, depositor.addr, depositor.addr);
         vm.stopPrank();
 
         assertEq(token.balanceOf(depositor.addr), amount);
-        assertEq(vault.balanceOf(depositor.addr), 0);
+        assertEq(strategy.balanceOf(depositor.addr), 0);
     }
 }

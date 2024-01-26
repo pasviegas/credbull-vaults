@@ -13,6 +13,7 @@ contract RedeemWindowVaultDecorator is OperationWindowVaultDecorator {
         external
         override
         onlyInsideRequiredWindow("withdraw")
+        onlyDecorator(msg.sender)
         returns (uint256)
     {
         return vault.withdraw(assets, receiver, owner);
@@ -22,6 +23,7 @@ contract RedeemWindowVaultDecorator is OperationWindowVaultDecorator {
         external
         override
         onlyInsideRequiredWindow("redeem")
+        onlyDecorator(msg.sender)
         returns (uint256 assets)
     {
         return vault.redeem(shares, receiver, owner);

@@ -13,6 +13,7 @@ contract DepositWindowVaultDecorator is OperationWindowVaultDecorator {
         external
         override
         onlyInsideRequiredWindow("deposit")
+        onlyDecorator(msg.sender)
         returns (uint256 shares)
     {
         return vault.deposit(assets, receiver);
@@ -22,6 +23,7 @@ contract DepositWindowVaultDecorator is OperationWindowVaultDecorator {
         external
         override
         onlyInsideRequiredWindow("mint")
+        onlyDecorator(msg.sender)
         returns (uint256 assets)
     {
         return vault.mint(shares, receiver);
