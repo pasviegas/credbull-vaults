@@ -13,7 +13,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault {
     }
 
     function deposit(uint256 assets, address receiver)
-        external
+    public
         override(AVaultDecorator, IERC4626)
         onlyDecorator(msg.sender)
         returns (uint256)
@@ -29,7 +29,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault {
     }
 
     function mint(uint256 shares, address receiver)
-        external
+    public
         override(AVaultDecorator, IERC4626)
         onlyDecorator(msg.sender)
         returns (uint256)
@@ -45,7 +45,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault {
     }
 
     function withdraw(uint256 assets, address receiver, address owner)
-        external
+    public
         override(AVaultDecorator, IERC4626)
         onlyDecorator(msg.sender)
         returns (uint256)
@@ -59,7 +59,7 @@ contract ImmediateSweepVaultDecorator is AVaultDecorator, ISweepableVault {
     }
 
     function redeem(uint256 shares, address receiver, address owner)
-        external
+    public
         override(AVaultDecorator, IERC4626)
         onlyDecorator(msg.sender)
         returns (uint256)

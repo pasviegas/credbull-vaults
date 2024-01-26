@@ -23,7 +23,7 @@ contract WhitelistVaultDecorator is AVaultDecorator {
     }
 
     function deposit(uint256 assets, address receiver)
-        external
+    public
         override
         onlyWhitelistedAddress(receiver)
         onlyDecorator(msg.sender)
@@ -33,7 +33,7 @@ contract WhitelistVaultDecorator is AVaultDecorator {
     }
 
     function mint(uint256 shares, address receiver)
-        external
+    public
         override
         onlyWhitelistedAddress(receiver)
         onlyDecorator(msg.sender)

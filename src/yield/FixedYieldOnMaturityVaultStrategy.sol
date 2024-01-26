@@ -8,7 +8,7 @@ import { FixedYieldOnMaturityVaultDecorator } from "./FixedYieldOnMaturityVaultD
 contract FixedYieldOnMaturityVaultStrategy is AVaultStrategy, Ownable {
     constructor(FixedYieldOnMaturityVaultDecorator vault) AVaultStrategy(vault) Ownable(msg.sender) { }
 
-    function mature() external onlyOwner {
+    function mature() public onlyOwner {
         FixedYieldOnMaturityVaultDecorator vault = FixedYieldOnMaturityVaultDecorator(address(vault));
         vault.mature();
     }

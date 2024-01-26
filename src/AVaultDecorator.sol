@@ -34,56 +34,56 @@ abstract contract AVaultDecorator is IDecorableVault, Ownable {
         _;
     }
 
-    function asset() external view virtual onlyDecorator(msg.sender) returns (address) {
+    function asset() public view virtual onlyDecorator(msg.sender) returns (address) {
         return vault.asset();
     }
 
-    function totalAssets() external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function totalAssets() public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.totalAssets();
     }
 
-    function convertToShares(uint256 assets) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function convertToShares(uint256 assets) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.convertToShares(assets);
     }
 
-    function convertToAssets(uint256 shares) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function convertToAssets(uint256 shares) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.convertToAssets(shares);
     }
 
-    function maxDeposit(address receiver) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function maxDeposit(address receiver) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.maxDeposit(receiver);
     }
 
-    function previewDeposit(uint256 assets) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function previewDeposit(uint256 assets) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.previewDeposit(assets);
     }
 
-    function deposit(uint256 assets, address receiver) external virtual onlyDecorator(msg.sender) returns (uint256) {
+    function deposit(uint256 assets, address receiver) public virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.deposit(assets, receiver);
     }
 
-    function maxMint(address receiver) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function maxMint(address receiver) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.maxMint(receiver);
     }
 
-    function previewMint(uint256 shares) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function previewMint(uint256 shares) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.previewMint(shares);
     }
 
-    function mint(uint256 shares, address receiver) external virtual onlyDecorator(msg.sender) returns (uint256) {
+    function mint(uint256 shares, address receiver) public virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.mint(shares, receiver);
     }
 
-    function maxWithdraw(address owner) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function maxWithdraw(address owner) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.maxWithdraw(owner);
     }
 
-    function previewWithdraw(uint256 assets) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function previewWithdraw(uint256 assets) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.previewWithdraw(assets);
     }
 
     function withdraw(uint256 assets, address receiver, address owner)
-        external
+        public
         virtual
         onlyDecorator(msg.sender)
         returns (uint256)
@@ -91,16 +91,16 @@ abstract contract AVaultDecorator is IDecorableVault, Ownable {
         return vault.withdraw(assets, receiver, owner);
     }
 
-    function maxRedeem(address owner) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function maxRedeem(address owner) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.maxRedeem(owner);
     }
 
-    function previewRedeem(uint256 shares) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function previewRedeem(uint256 shares) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.previewRedeem(shares);
     }
 
     function redeem(uint256 shares, address receiver, address owner)
-        external
+        public
         virtual
         onlyDecorator(msg.sender)
         returns (uint256)
@@ -108,20 +108,20 @@ abstract contract AVaultDecorator is IDecorableVault, Ownable {
         return vault.redeem(shares, receiver, owner);
     }
 
-    function totalSupply() external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function totalSupply() public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.totalSupply();
     }
 
-    function balanceOf(address account) external view virtual onlyDecorator(msg.sender) returns (uint256) {
+    function balanceOf(address account) public view virtual onlyDecorator(msg.sender) returns (uint256) {
         return vault.balanceOf(account);
     }
 
-    function transfer(address to, uint256 value) external virtual onlyDecorator(msg.sender) returns (bool) {
+    function transfer(address to, uint256 value) public virtual onlyDecorator(msg.sender) returns (bool) {
         return vault.transfer(to, value);
     }
 
     function allowance(address owner, address spender)
-        external
+        public
         view
         virtual
         onlyDecorator(msg.sender)
@@ -130,12 +130,12 @@ abstract contract AVaultDecorator is IDecorableVault, Ownable {
         return vault.allowance(owner, spender);
     }
 
-    function approve(address spender, uint256 value) external virtual onlyDecorator(msg.sender) returns (bool) {
+    function approve(address spender, uint256 value) public virtual onlyDecorator(msg.sender) returns (bool) {
         return vault.approve(spender, value);
     }
 
     function transferFrom(address from, address to, uint256 value)
-        external
+        public
         virtual
         onlyDecorator(msg.sender)
         returns (bool)
@@ -143,15 +143,15 @@ abstract contract AVaultDecorator is IDecorableVault, Ownable {
         return vault.transferFrom(from, to, value);
     }
 
-    function name() external view virtual onlyDecorator(msg.sender) returns (string memory) {
+    function name() public view virtual onlyDecorator(msg.sender) returns (string memory) {
         return vault.name();
     }
 
-    function symbol() external view virtual onlyDecorator(msg.sender) returns (string memory) {
+    function symbol() public view virtual onlyDecorator(msg.sender) returns (string memory) {
         return vault.symbol();
     }
 
-    function decimals() external view virtual onlyDecorator(msg.sender) returns (uint8) {
+    function decimals() public view virtual onlyDecorator(msg.sender) returns (uint8) {
         return vault.decimals();
     }
 
@@ -159,7 +159,7 @@ abstract contract AVaultDecorator is IDecorableVault, Ownable {
         return vault.getBalance(token);
     }
 
-    function getVault() external view onlyDecorator(msg.sender) returns (IERC4626) {
+    function getVault() public view onlyDecorator(msg.sender) returns (IERC4626) {
         return vault.getVault();
     }
 }

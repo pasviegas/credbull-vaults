@@ -10,7 +10,7 @@ contract RedeemWindowVaultDecorator is OperationWindowVaultDecorator {
     { }
 
     function withdraw(uint256 assets, address receiver, address owner)
-        external
+    public
         override
         onlyInsideRequiredWindow("withdraw")
         onlyDecorator(msg.sender)
@@ -20,7 +20,7 @@ contract RedeemWindowVaultDecorator is OperationWindowVaultDecorator {
     }
 
     function redeem(uint256 shares, address receiver, address owner)
-        external
+    public
         override
         onlyInsideRequiredWindow("redeem")
         onlyDecorator(msg.sender)

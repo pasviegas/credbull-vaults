@@ -10,7 +10,7 @@ contract DepositWindowVaultDecorator is OperationWindowVaultDecorator {
     { }
 
     function deposit(uint256 assets, address receiver)
-        external
+    public
         override
         onlyInsideRequiredWindow("deposit")
         onlyDecorator(msg.sender)
@@ -20,7 +20,7 @@ contract DepositWindowVaultDecorator is OperationWindowVaultDecorator {
     }
 
     function mint(uint256 shares, address receiver)
-        external
+    public
         override
         onlyInsideRequiredWindow("mint")
         onlyDecorator(msg.sender)
