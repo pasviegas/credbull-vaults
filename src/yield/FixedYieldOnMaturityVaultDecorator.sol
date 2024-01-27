@@ -28,7 +28,7 @@ contract FixedYieldOnMaturityVaultDecorator is AVaultDecorator, IDynamicAssetVau
     }
 
     function withdraw(uint256 assets, address receiver, address owner)
-    public
+        public
         override(AVaultDecorator, IERC4626)
         onlyIfMatured
         onlyDecorator(msg.sender)
@@ -38,11 +38,11 @@ contract FixedYieldOnMaturityVaultDecorator is AVaultDecorator, IDynamicAssetVau
     }
 
     function redeem(uint256 shares, address receiver, address owner)
-    public
+        public
         override(AVaultDecorator, IERC4626)
         onlyIfMatured
         onlyDecorator(msg.sender)
-        returns (uint256 assets)
+        returns (uint256)
     {
         return vault.redeem(shares, receiver, owner);
     }

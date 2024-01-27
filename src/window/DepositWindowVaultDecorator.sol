@@ -10,21 +10,21 @@ contract DepositWindowVaultDecorator is OperationWindowVaultDecorator {
     { }
 
     function deposit(uint256 assets, address receiver)
-    public
+        public
         override
         onlyInsideRequiredWindow("deposit")
         onlyDecorator(msg.sender)
-        returns (uint256 shares)
+        returns (uint256)
     {
         return vault.deposit(assets, receiver);
     }
 
     function mint(uint256 shares, address receiver)
-    public
+        public
         override
         onlyInsideRequiredWindow("mint")
         onlyDecorator(msg.sender)
-        returns (uint256 assets)
+        returns (uint256)
     {
         return vault.mint(shares, receiver);
     }

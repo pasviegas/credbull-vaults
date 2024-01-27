@@ -82,7 +82,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 maxAssets)
+        returns (uint256)
     {
         return super.maxDeposit(receiver);
     }
@@ -93,7 +93,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 shares)
+        returns (uint256)
     {
         return super.previewDeposit(assets);
     }
@@ -103,7 +103,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 shares)
+        returns (uint256)
     {
         return super.deposit(assets, receiver);
     }
@@ -114,7 +114,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 maxShares)
+        returns (uint256)
     {
         return super.maxMint(receiver);
     }
@@ -125,7 +125,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 assets)
+        returns (uint256)
     {
         return super.previewMint(shares);
     }
@@ -135,7 +135,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 assets)
+        returns (uint256)
     {
         return super.mint(shares, receiver);
     }
@@ -146,7 +146,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 maxAssets)
+        returns (uint256)
     {
         return super.maxWithdraw(owner);
     }
@@ -157,7 +157,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 shares)
+        returns (uint256)
     {
         return super.previewWithdraw(assets);
     }
@@ -167,7 +167,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 shares)
+        returns (uint256)
     {
         return super.withdraw(assets, receiver, owner);
     }
@@ -178,7 +178,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 maxShares)
+        returns (uint256)
     {
         return super.maxRedeem(owner);
     }
@@ -189,7 +189,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 assets)
+        returns (uint256)
     {
         return super.previewRedeem(shares);
     }
@@ -199,7 +199,7 @@ contract DecorableVault is IDecorableVault, ERC4626, Ownable {
         virtual
         override(IERC4626, ERC4626)
         onlyDecorator(msg.sender)
-        returns (uint256 assets)
+        returns (uint256)
     {
         return super.redeem(shares, receiver, owner);
     }
